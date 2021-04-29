@@ -3,38 +3,37 @@
 
 using namespace std;
 
-string processJsonArray(string aJsonString)
+string jsonArrayEditor(string jsonArray)
 {
-    int openBracketCounter = 0;
-    int closedBracketCounter = 0;
-    //If I could figure it out, remove first open bracket here
-    for (int i = 0; i < aJsonString.length(); i++)
+    int counter = 1;
+    string newString = "";
+    for (int i = 1; i < jsonArray.length(); i++)
     {
-        if (aJsonString[i] == char('['))
+        if (jsonArray[i] == '[')
         {
-            openBracketCounter++;
+            counter++;
         }
-        else if (aJsonString[i] == char(']'))
+        else if (jsonArray[i] == ']')
         {
-            if (openBracketCounter == 1)
-            {
-                //If I could figure it out, delete end bracket and return the string
-                return aJsonString;
-            }
-            else
-            {
-                openBracketCounter--;
-            }
+            counter--;
         }
 
+        if (jsonArray[i] == ']' && counter == 0)
+        {
+            return newString;
+        }
+        else
+        {
+            newString += jsonArray[i];
+        }
     }
-    return "";
+    return "Please enter a jsonArray represented as a string";
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    string jsonString = "[{\"fname\":\"val1\", \"lname\":\"val2\", \"sums\":[1,2,3]}, {\"fname\":\"val3\", \"lname\":\"val4\"}";
-    string modifiedString = processJsonArray(jsonString);
-    cout << modifiedString << endl;
+    string exampleInput = "[{\"fname\":\"val1\", \"lname\": \"val2\", \"sums\":[1,2,3]},{\"fname\":\"val3\", \"lname\":\"val4\"}]";
+    string exampleOutput = jsonArrayEditor(exampleInput);
+    cout << exampleOutput << endl;
     return 0;
 }
